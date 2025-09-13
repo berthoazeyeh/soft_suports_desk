@@ -6,7 +6,6 @@ class TTSService {
   Future<void> speakGreeting(bool isFrench) async {
     String language = isFrench ? "fr-FR" : "en-US";
     await _flutterTts.setLanguage(language);
-    await _flutterTts.speak("Le code RFID scanné est ");
   }
 
   Future<void> speakRfidCode(String rfidCode, bool isFrench) async {

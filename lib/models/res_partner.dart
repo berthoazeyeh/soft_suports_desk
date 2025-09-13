@@ -27,6 +27,31 @@ class ResPartner {
     );
   }
 
+  // Méthode pour convertir une carte (map) en objet ResPartner
+  factory ResPartner.fromLocalJson(Map<String, dynamic> json) {
+    return ResPartner(
+      id: json['id'],
+      displayName: json['name'] ?? '',
+      rfidCode: json['rfidcode'] ?? '',
+      rfidNum:
+          json['rfidcode_num'] ?? '', // S'assure que rfid_num peut être vide
+      personType: json['type'] ?? '',
+      avatar: json['image'] ?? '',
+    );
+  }
+  // Méthode pour convertir une carte (map) en objet ResPartner
+  factory ResPartner.fromLocalFilterJson(Map<String, dynamic> json) {
+    return ResPartner(
+      id: json['user_id'] ?? json['id_user'] ?? 0,
+      displayName: json['user_name'] ?? '',
+      rfidCode: json['rfidcode'] ?? '',
+      rfidNum:
+          json['rfidcode_num'] ?? '', // S'assure que rfid_num peut être vide
+      personType: json['type'] ?? '',
+      avatar: json['image'] ?? '',
+    );
+  }
+
   // Méthode pour convertir l'objet ResPartner en une carte (map)
   Map<String, dynamic> toJson() {
     return {

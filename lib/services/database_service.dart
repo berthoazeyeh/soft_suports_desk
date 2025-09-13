@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 
@@ -14,12 +18,29 @@ class DatabaseService {
     return _database!;
   }
 
+  Future<String> checkPath(String dbName) async {
+    var databasePath = await getDatabasesPath();
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+        ? join(databasePath, dbName)
+        : join(appDocDir.path, dbName);
+    if (await Directory(dirname(path)).exists()) {
+    } else {
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+      }
+    }
+    return path;
+  }
+
   Future<Database> _initDB(String filePath) async {
     sqfliteFfiInit(); // Ensure FFI is initialized
-    databaseFactory = databaseFactoryFfi; // Use FFI for desktop
-    final dbPath = await databaseFactory.getDatabasesPath();
-    final path = join(dbPath, filePath);
-
+    String path = await checkPath(filePath);
+    log(path);
     return await databaseFactory.openDatabase(
       path,
       options: OpenDatabaseOptions(

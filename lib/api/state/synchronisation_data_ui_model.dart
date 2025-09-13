@@ -1,10 +1,13 @@
+import 'package:soft_support_decktop/models/attendances.dart';
+
 class SynchronisationDataUiModel {
-  final Position? position;
+  final MyPosition? position;
   final double time;
   final bool isSynchronisedUp;
   final bool isSynchronisedDown;
   final bool isSyncing;
   final String bannerMessage;
+  final DevisePosition? devisePosition;
 
   const SynchronisationDataUiModel({
     this.position,
@@ -13,12 +16,17 @@ class SynchronisationDataUiModel {
     required this.isSynchronisedDown,
     required this.isSyncing,
     required this.bannerMessage,
+    this.devisePosition,
   });
 
   factory SynchronisationDataUiModel.fromJson(Map<String, dynamic> json) {
     return SynchronisationDataUiModel(
-      position:
-          json['position'] != null ? Position.fromJson(json['position']) : null,
+      position: json['position'] != null
+          ? MyPosition.fromJson(json['position'])
+          : null,
+      devisePosition: json['devisePosition'] != null
+          ? DevisePosition.fromJson(json['devisePosition'])
+          : null,
       time: (json['time'] as num).toDouble(),
       isSynchronisedUp: json['isSynchronisedUp'],
       isSynchronisedDown: json['isSynchronisedDown'],
@@ -30,6 +38,7 @@ class SynchronisationDataUiModel {
   Map<String, dynamic> toJson() {
     return {
       'position': position?.toJson(),
+      'devisePosition': devisePosition?.toJson(),
       'time': time,
       'isSynchronisedUp': isSynchronisedUp,
       'isSynchronisedDown': isSynchronisedDown,
@@ -39,15 +48,17 @@ class SynchronisationDataUiModel {
   }
 
   SynchronisationDataUiModel copyWith({
-    Position? position,
+    MyPosition? position,
     double? time,
     bool? isSynchronisedUp,
     bool? isSynchronisedDown,
     bool? isSyncing,
     String? bannerMessage,
+    DevisePosition? devisePosition,
   }) {
     return SynchronisationDataUiModel(
       position: position ?? this.position,
+      devisePosition: devisePosition ?? this.devisePosition,
       time: time ?? this.time,
       isSynchronisedUp: isSynchronisedUp ?? this.isSynchronisedUp,
       isSynchronisedDown: isSynchronisedDown ?? this.isSynchronisedDown,
@@ -57,33 +68,33 @@ class SynchronisationDataUiModel {
   }
 }
 
-class Position {
-  final String latitude;
-  final String longitude;
+class DevisePosition {
+  final String deviceId;
+  final String positionName;
 
-  Position({required this.latitude, required this.longitude});
+  DevisePosition({required this.deviceId, required this.positionName});
 
-  factory Position.fromJson(Map<String, dynamic> json) {
-    return Position(
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+  factory DevisePosition.fromJson(Map<String, dynamic> json) {
+    return DevisePosition(
+      deviceId: json['deviceId'],
+      positionName: json['positionName'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'latitude': latitude,
-      'longitude': longitude,
+      'deviceId': deviceId,
+      'positionName': positionName,
     };
   }
 
-  Position copyWith({
-    String? latitude,
-    String? longitude,
+  DevisePosition copyWith({
+    String? deviceId,
+    String? positionName,
   }) {
-    return Position(
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
+    return DevisePosition(
+      deviceId: deviceId ?? this.deviceId,
+      positionName: positionName ?? this.positionName,
     );
   }
 }

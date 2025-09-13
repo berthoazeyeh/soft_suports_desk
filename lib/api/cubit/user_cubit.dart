@@ -10,7 +10,7 @@ class AuthCubit extends HydratedCubit<UserModel?> {
 
   bool get isSignedIn => state != null;
 
-  UserModel get getSignedInUser => state!;
+  UserModel? get getSignedInUser => state;
 
   @override
   UserModel? fromJson(Map<String, dynamic> json) => UserModel.fromJson(json);

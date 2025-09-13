@@ -22,9 +22,11 @@ class MyBannerWidget extends StatelessWidget {
           const SizedBox(
             width: 20,
           ),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.w200, fontSize: 16),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.w200, fontSize: 16),
+            ),
           ),
         ],
       ),
